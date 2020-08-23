@@ -1,0 +1,6 @@
+project: Davidia
+source: 
+  class: Excel
+  name: "data/2020-SUFE-W1.xlsx"
+output:
+  base: "SUFE-W1-Health-QA-Code-Submit-Report"
