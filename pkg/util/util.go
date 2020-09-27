@@ -41,23 +41,23 @@ func GetUsageReportFiles(pathName string) ([]string, error) {
 
 //GetCurrentPath Get current path, default supoort only `go run main.go`
 func GetCurrentPath(filename string) (string, error) {
-	if regexp.MustCompile(`[exe\/main|exe]$`).MatchString(filename) {
-
-		return ".", nil
+	if regexp.MustCompile(`[Dd]avidia`).MatchString(filename) {
+		file, err := exec.LookPath(filename)
+		if err != nil {
+			return "", err
+		}
+		path, err := filepath.Abs(file)
+		if err != nil {
+			return "", err
+		}
+		return filepath.Dir(path), nil
 	}
-	file, err := exec.LookPath(filename)
-	if err != nil {
-		return "", err
-	}
-	path, err := filepath.Abs(file)
-	if err != nil {
-		return "", err
-	}
-	return filepath.Dir(path), nil
+	return ".", nil
 }
 
 // Config configure information struct
 type Config struct {
+	Home    string  `yaml:"-"`
 	Project string  `yaml:"project"`
 	Source  *Source `yaml:"source"`
 	Output  *Output `yaml:"output"`
@@ -75,9 +75,9 @@ type Output struct {
 }
 
 // Parse config.yaml to data struct
-func Parse(file string) (cfg *Config, err error) {
+func Parse(dir, filename string) (cfg *Config, err error) {
 	cfg = new(Config)
-	body, err := ioutil.ReadFile(file)
+	body, err := ioutil.ReadFile(dir + "/" + filename)
 	if err != nil {
 		return
 	}
@@ -85,5 +85,6 @@ func Parse(file string) (cfg *Config, err error) {
 	if err != nil {
 		return
 	}
+	cfg.Home = dir
 	return
 }

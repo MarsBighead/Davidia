@@ -5,4 +5,8 @@
 *.zip
 build
 *.exe
+*.tar.gz
+*.tgz
 Davidia
+davidia
+Davidia-mac

@@ -18,8 +18,8 @@ type Students struct {
 }
 
 //Get student information for source
-func (src *Source) Get() (*Students, error) {
-	f, err := xlsx.OpenFile(src.Name)
+func (src *Source) Get(home string) (*Students, error) {
+	f, err := xlsx.OpenFile(home + "/" + src.Name)
 	if err != nil {
 		return nil, err
 	}
